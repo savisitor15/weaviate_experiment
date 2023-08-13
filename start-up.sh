@@ -2,6 +2,7 @@
 URL_TEXT2VEC='curl -o docker-compose.yml "https://configuration.weaviate.io/v2/docker-compose/docker-compose.yml?generative_cohere=false&generative_openai=false&generative_palm=false&gpu_support=false&media_type=text&modules=modules&ner_module=false&qna_module=false&ref2vec_centroid=false&reranker_cohere=false&runtime=docker-compose&spellcheck_module=false&sum_module=false&text_module=text2vec-transformers&transformers_model=google-flan-t5-base&weaviate_version=v1.20.5"'
 URL_QNA='curl -o docker-compose.yml "https://configuration.weaviate.io/v2/docker-compose/docker-compose.yml?generative_cohere=false&generative_openai=false&generative_palm=false&gpu_support=false&media_type=text&modules=modules&ner_module=false&qna_module=false&ref2vec_centroid=false&reranker_cohere=false&runtime=docker-compose&spellcheck_module=false&sum_module=false&text_module=text2vec-transformers&transformers_model=_custom&transformers_model_custom_image=semitechnologies%2Ftransformers-inference%3Asentence-transformers-msmarco-distilbert-base-v2&weaviate_version=v1.20.5"'
 SERVICE='weaviate'
+OPT=0
 PS3="Select option: "
 
 check_service() {
@@ -16,8 +17,18 @@ start_service() {
     if check_service;then
         kill_service
     fi  
+    download_service
     echo "Service starting..."
     docker-compose up -d $SERVICE  
+}
+
+download_service() {
+    echo "Downloading docker-compose.yml..."
+    if [[ $OPT -eq 1 ]];then
+        eval $URL_TEXT2VEC
+    else
+        eval $URL_QNA
+    fi
 }
 
 kill_service() {
@@ -41,12 +52,12 @@ main() {
     select opt in QNA TEXT2VEC; do
         case $opt in
         QNA)
-            eval $URL_QNA
+            OPT=0
             echo "QNA Module selected"
             break
         ;;
         TEXT2VEC)
-            eval $URL_TEXT2VEC
+            OPT=1
             echo "TEXT2VEC module selected"
             break
         ;;
@@ -60,4 +71,6 @@ main() {
     start_service
 }
 
+
+# Run the main body of the script
 main
