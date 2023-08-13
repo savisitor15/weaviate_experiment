@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+
+# Simple script to download two preset modules and run a local weaviate environment
 URL_TEXT2VEC='curl -o docker-compose.yml "https://configuration.weaviate.io/v2/docker-compose/docker-compose.yml?generative_cohere=false&generative_openai=false&generative_palm=false&gpu_support=false&media_type=text&modules=modules&ner_module=false&qna_module=false&ref2vec_centroid=false&reranker_cohere=false&runtime=docker-compose&spellcheck_module=false&sum_module=false&text_module=text2vec-transformers&transformers_model=google-flan-t5-base&weaviate_version=v1.20.5"'
 URL_QNA='curl -o docker-compose.yml "https://configuration.weaviate.io/v2/docker-compose/docker-compose.yml?generative_cohere=false&generative_openai=false&generative_palm=false&gpu_support=false&media_type=text&modules=modules&ner_module=false&qna_module=false&ref2vec_centroid=false&reranker_cohere=false&runtime=docker-compose&spellcheck_module=false&sum_module=false&text_module=text2vec-transformers&transformers_model=_custom&transformers_model_custom_image=semitechnologies%2Ftransformers-inference%3Asentence-transformers-msmarco-distilbert-base-v2&weaviate_version=v1.20.5"'
 SERVICE='weaviate'
